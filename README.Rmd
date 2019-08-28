@@ -1,0 +1,107 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r setup, include = F}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# SGF
+
+La SGF (pour _Statistique Générale de la France_) est [l'ancêtre de l'Insee](https://www.insee.fr/fr/information/1300622), à savoir un service ministériel chargé de collecter et analyser des statistiques pour le gouvernement français entre 1833 et 1940.
+
+Une partie de ces données a été saisie dans les années 1980 par une équipe de chercheurs franco-américains à l'Inter-University Consortium for Political and Social Research (ICPSR), situé à Ann Arbor, Michigan, États-Unis. L'Insee a [publié ici](https://www.insee.fr/fr/statistiques/2591397) 200 tableurs au format dbf portant sur les recensements de la population, la démographie et l'enseignement primaire, entre 1800 et 1925. 
+
+Le package `sgf` regroupe, normalise et documente ces indicateurs disponibles dans la plupart des cas à l'échelon géographique du département (des arrondissements voire des chefs-lieux d'arrondissements dans quelques rares cas). Il permet également de cartographier ces indicateurs au millésime géographique du département correspondant au millésime de la donnée.
+
+`sgf` est composé de :
+
+- 2 tables de données (format dataframe) : 
+  - __indicateurs_SGF__ : description des 40 000 indicateurs disponibles (libellé, identifiant, millésime de la donnée, échelles géographiques disponibles et millésime de la géographie)
+  - __data_SGF__ : table contenant l'ensemble des données en format long (libellés, identifiants, millésime de la donnée et millésime de la géographie)
+  
+
+- 1 table géographique (format sf dataframe) :
+  - __geo_DEP_SGF_histo__ : contours géographiques des départements (avec leur code et libellé) selon le millésime de la géographie (cf. "géographie ci-dessous)
+
+- 1 fonction :
+  - __sgf_sfdf__ : après avoir identifié les indicateurs de son choix dans la table __indicateurs_SGF__, cette fonction permet de créer un sf dataframe avec les indicateurs en format large
+
+
+
+## Installation
+
+Le package `sgf` peut être installé depuis [github](https://github.com/observatoire-territoires/sgf) via la commande suivante :
+
+``` {r eval=F}
+remotes::install_github("observatoire-territoires/sgf")
+```
+ 
+
+## Géographie
+
+Les contours des départements de France métropolitaine ont évolués sur la période que couvre les données de la SGF.
+Les 5 millésimes de cette géographie départementale sont disponibles dans la table `geo_DEP_SGF_histo` :
+
+```{r example , eval=T, echo=F, message=F, warning=F , dpi= 500}
+
+library(tidyverse)
+library(sf)
+
+load( file = "./data/geo_DEP_SGF_histo.rda")
+
+geo_DEP_SGF_histo_modifs <- 
+  geo_DEP_SGF_histo %>%
+  mutate(modif = case_when(CODGEO %in% '82' & ANNEE_GEOGRAPHIE == 1826 ~ "création",
+                           CODGEO %in% '73' & ANNEE_GEOGRAPHIE == 1866 ~ "création",
+                           CODGEO %in% '74' & ANNEE_GEOGRAPHIE == 1866 ~ "création",
+                           CODGEO %in% '06' & ANNEE_GEOGRAPHIE == 1866 ~ "création",
+                           CODGEO %in% '83' & ANNEE_GEOGRAPHIE == 1866 ~ "modification",
+                           CODGEO %in% '54' & ANNEE_GEOGRAPHIE == 1876 ~ "création",
+                           CODGEO %in% '90' & ANNEE_GEOGRAPHIE == 1876 ~ "création",
+                           CODGEO %in% '88' & ANNEE_GEOGRAPHIE == 1876 ~ "modification",
+                           CODGEO %in% '57' & ANNEE_GEOGRAPHIE == 1918 ~ "création",
+                           CODGEO %in% '67' & ANNEE_GEOGRAPHIE == 1918 ~ "création",
+                           CODGEO %in% '68' & ANNEE_GEOGRAPHIE == 1918 ~ "création")) %>%
+  # ajout des départements supprimés en 1876
+  rbind.data.frame(geo_DEP_SGF_histo %>%
+                     filter(ANNEE_GEOGRAPHIE == 1866 & CODGEO %in% c('57','67','68')) %>%
+                     mutate(ANNEE_GEOGRAPHIE = 1876) %>%
+                     mutate(modif = "suppression"))
+
+ggplot(data = geo_DEP_SGF_histo_modifs ) +
+  geom_sf(aes(fill = modif),
+          color = "grey70", lwd = 0.2) +
+  geom_sf_text(aes(label = CODGEO), color = "grey20", size = 1.5, fontface = "bold") +
+  scale_fill_manual(name = "Modifications successives\ndepuis 1801",
+                    values =c("green", "orange", "red"), na.translate = F, na.value = "grey") +
+  facet_wrap(~ ANNEE_GEOGRAPHIE, ncol = 3) +
+  theme(axis.text = element_blank(), 
+        axis.title = element_blank(), 
+        text =  element_text(size = 10,face = "bold"),
+        strip.text.x = element_text(size = 10, colour = "white"),
+        strip.background = element_rect(fill="grey20", colour=NA,size=0),
+        legend.position = c(0.85,0.3),
+        legend.key.size = unit(0.2, "cm"),
+        legend.key.width = unit(0.4,"cm") ,
+        legend.title = element_text(size = 7),
+        legend.text = element_text(size = 5),
+        axis.ticks  = element_blank()) +
+  labs(
+    title = "Contours des départements de France métropolitaine"
+  ) +
+  coord_sf(crs = st_crs(2154), datum = NA)
+
+```
+
+
+## Exemple
+
+

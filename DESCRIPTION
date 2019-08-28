@@ -1,0 +1,10 @@
+Package: sgf
+Title: sgf
+Version: 0.0.0.9000
+Authors@R: person('Observatoire des Territoires',email='observatoire@<U+263A>cget.gouv.fr', role=c('cre','aut'))
+Description: Old French statistics
+License: {{ License }}
+LazyData: true
+URL: https://github.com/observatoire-territoires/sgf
+BugReports: https://github.com/observatoire-territoires/sgf/issues
+Encoding: UTF-8
