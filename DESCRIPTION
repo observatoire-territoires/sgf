@@ -8,3 +8,9 @@ LazyData: true
 URL: https://github.com/observatoire-territoires/sgf
 BugReports: https://github.com/observatoire-territoires/sgf/issues
 Encoding: UTF-8
+Imports: 
+    dplyr,
+    tidyr,
+    janitor,
+    sf
+RoxygenNote: 6.1.1

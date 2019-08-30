@@ -101,7 +101,7 @@ indicateurs_SGF <- liste_variables %>%
                      ANNEE_GEOGRAPHIE = annee_geographie_DEP),
             by = "TABLEAU") %>%
   filter(!TABLEAU %in% 'Tous les tableaux') %>%
-  select(TABLEAU, NOM_TABLEAU, VAR_COD = VAR, VAR_LIB = LIB, ANNEE_DONNEE, ECHELLES_GEO, ANNEE_GEOGRAPHIE)
+  select(TABLEAU, NOM_TABLEAU, VAR_COD = VAR_N, VAR_LIB = LIB, ANNEE_DONNEE, ECHELLES_GEO, ANNEE_GEOGRAPHIE)
 
 # imports et aggrégation de tous les datasets du thème REC
 
@@ -113,10 +113,11 @@ argList <- list(liste_datasets$id_theme,
                 liste_datasets$annee_geographie_DEP)
 
 data_SGF <- pmap_dfr(argList,
-                    f_dl_import_md_dataset)
+                    f_dl_import_md_dataset) %>%
+  mutate(VAR_COD = as.numeric(str_replace_all(VAR_COD, "V","")))
 
 
-# Save an object to a file
-saveRDS(data_SGF, file = "./data/data_SGF.rds")
-# Restore the object
-data_SGF <- readRDS(file = "./data/data_SGF.rds")
+# # Save an object to a file
+# saveRDS(data_SGF, file = "./data/data_SGF.rds")
+# # Restore the object
+# data_SGF <- readRDS(file = "./data/data_SGF.rds")
