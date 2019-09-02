@@ -48,17 +48,71 @@ Le package `sgf` peut être installé depuis
 [github](https://github.com/observatoire-territoires/sgf) via la
 commande suivante :
 
-``` r
+``` r fold-show
 remotes::install_github("observatoire-territoires/sgf")
 ```
 
 ## Géographie
 
-Les contours des départements de France métropolitaine ont évolués sur
-la période que couvre les données de la SGF. Les 5 millésimes de cette
+Les contours des départements de France métropolitaine ont évolué sur la
+période que couvre les données de la SGF. Les 5 millésimes de cette
 géographie départementale sont disponibles dans la table
-`geo_DEP_SGF_histo` :
+`geo_DEP_SGF_histo`
+:
 
-<img src="man/figures/README-example -1.png" width="100%" />
+<img src="man/figures/README-plot_geographie_departement -1.png" width="100%" />
 
 ## Exemple
+
+La recherche des indicateurs se fait directement dans la table
+**indicateurs\_SGF** : une fois la source et le numéro des variables
+sélectionnés, la fonction **sgf\_sfdf** permet de générer un sf
+dataframe des départements avec les indicateurs correspondants, au
+format large :
+
+``` r
+library(sgf)
+
+DEP_pop_1866 <-
+  sgf_sfdf(TYPE_NIVGEO = "DEP",
+           SRC ="REC_T25",
+           LISTE_VAR_COD = c(215, 177, 183))
+
+glimpse(DEP_pop_1866)
+#> Observations: 89
+#> Variables: 6
+#> $ CODGEO                                      <chr> "01", "02", "03", ...
+#> $ geometry                                    <GEOMETRY [m]> POLYGON (...
+#> $ ANNEE_GEOGRAPHIE                            <dbl> 1866, 1866, 1866, ...
+#> $ aveugles_total_1866                         <dbl> 318, 659, 219, 168...
+#> $ personnes_sachant_lire_et_ecrire_total_1866 <dbl> 178797, 324069, 10...
+#> $ total_general_de_la_population_total_1866   <dbl> 365895, 561620, 37...
+```
+
+Puis on peut cartographier le tout avec `ggplot` par exemple :
+
+``` r
+library(ggplot2)
+library(scales)
+library(hrbrthemes)
+
+ggplot() +
+  geom_sf(data = DEP_pop_1866 %>%
+            mutate(personnes_sachant_lire_et_ecrire_total_1866_pct = 
+                     personnes_sachant_lire_et_ecrire_total_1866 / total_general_de_la_population_total_1866),
+          aes(fill= personnes_sachant_lire_et_ecrire_total_1866_pct),
+          color = "white",
+          lwd = 0.1) +
+  scale_fill_distiller(name = "", palette = "RdBu",
+                       labels = percent_format(accuracy =1),
+                       direction = 1) +
+  theme_ipsum() +
+  theme(axis.text = element_blank(), axis.title  = element_blank(), axis.ticks  = element_blank()) +
+  labs(
+    title = "Part de la population sachant lire et écrire",
+    subtitle = "En 1881, par département",
+    caption = "Source : Insee - SGF - ICPSR"
+  )
+```
+
+<img src="man/figures/README-plot_exemple_carto -1.png" width="100%" />

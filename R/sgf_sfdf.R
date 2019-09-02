@@ -10,19 +10,18 @@
 #'
 #' @return Renvoie sf dataframe contenant code et nom du territoire ainsi que les indicateurs sélectionnés.
 #'
-#' @importFrom dplyr tribble distinct pull mutate select left_join case_when group_by summarise ungroup rename mutate_if bind_rows
+#' @importFrom dplyr tribble filter distinct pull mutate select left_join case_when group_by summarise ungroup rename mutate_if bind_rows
 #' @importFrom janitor clean_names
-#' @importFrom tidyr spread
+#' @importFrom tidyr spread gather
 #' @import sf
 #'
 #' @examples
 #' \dontrun{
-#' # Création du sf dataframe contenant les indicateurs de cheptels (bovins, ovins, etc...) issus du recensement de 1872
+#' # Creation du sf dataframe contenant les indicateurs de cheptels (bovins, ovins, etc...) issus du recensement de 1872
 #' DEP_cheptels_1872 <-
 #' sgf_sfdf(TYPE_NIVGEO = "DEP",
 #'          SRC ="REC_T17",
 #'          LISTE_VAR_COD = c(52, 59, 65, 70, 83, 87, 94))
-#'
 #'
 #'}
 #'
