@@ -4,7 +4,19 @@
 \name{data_SGF}
 \alias{data_SGF}
 \title{Table des données de la SGF}
-\format{An object of class \code{data.frame} with 4639686 rows and 9 columns.}
+\format{Table (format data.frame) de 4 639 686 lignes et 9 variables.
+\describe{
+  \item{NIVGEO}{Nom de l'échelle géographique (FR pour France entière, DEP pour Département, 
+  ARR pour Arrondissement, CHL pour Chef-lieu d'arrondissement, VIL pour Ville)}
+  \item{CODGEO}{Identifiant du territoire}
+  \item{LIBGEO}{Libellé du territoire}
+  \item{SRC_DATA}{Identifiant du tableau de donnée d'origine}
+  \item{VAR_COD}{Identifiant de l'indicateur (1 id unique par tableau de donnée d'origine)}
+  \item{VAR_LIB}{Nom en clair de l'indicateur}
+  \item{ANNEE_DONNEE}{Millésime de la donnée}
+  \item{ANNEE_GEOGRAPHIE}{Millésime des contours géographiques correspondants (1801, 1826, 1866, 1876 ou 1918)}
+  \item{VAL}{Valeur de l'indicateur}
+}}
 \source{
 \url{https://www.insee.fr/fr/statistiques/2591397}
 }

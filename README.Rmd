@@ -30,7 +30,7 @@ Le package `sgf` regroupe, normalise et documente ces indicateurs disponibles da
   - __data_SGF__ : table contenant l'ensemble des données en format long (libellés, identifiants, millésime de la donnée et millésime de la géographie)
   
 
-- 1 table géographique (format sf dataframe) :
+- 1 table de données géographiques (format sf dataframe) :
   - __geo_DEP_SGF_histo__ : contours géographiques des départements (avec leur code et libellé) selon le millésime de la géographie (cf. "géographie ci-dessous)
 
 - 1 fonction :
@@ -41,8 +41,13 @@ Le package `sgf` regroupe, normalise et documente ces indicateurs disponibles da
 
 Le package `sgf` peut être installé depuis [github](https://github.com/observatoire-territoires/sgf) via la commande suivante :
 
-``` {r eval=F, class.source = 'fold-show'}
+``` {r eval=F}
 remotes::install_github("observatoire-territoires/sgf")
+```
+ 
+Pour accéder à la documentation décrivant les tables de données, par exemple celle listant les indicateurs :
+``` {r eval=F, echo=T, message=F, warning=F}
+?sgf::indicateurs_SGF
 ```
  
 
@@ -111,10 +116,14 @@ La recherche des indicateurs se fait directement dans la table __indicateurs_SGF
 library(sgf)
 ```
 
+```{r view,  results="hide"}
+View(indicateurs_SGF)
+```
+
 ```{r recherche_indics, eval=T , echo=F, message=F, warning=F}
-indicateurs_SGF %>% slice(1:5) %>%
+indicateurs_SGF %>% slice(1:3) %>%
   kableExtra::kable() %>%
-  kableExtra::kable_styling(font_size = 9.5, bootstrap_options = c("striped", "hover", "condensed", "responsive"))
+  kableExtra::kable_styling(font_size = 6.5, bootstrap_options = c("striped", "hover", "condensed", "responsive"))
 ```
 
 ```{r recherche_indics_2, eval=F , echo=F, message=F, warning=F}

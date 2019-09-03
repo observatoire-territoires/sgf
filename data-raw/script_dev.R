@@ -45,6 +45,8 @@ usethis::use_data( geo_DEP_SGF_histo, overwrite = T)
 
 use_news_md()
 
+use_version()
+
 # fonction
 use_r("sgf_sfdf")
 

@@ -33,7 +33,7 @@ correspondant au millésime de la donnée.
       - **data\_SGF** : table contenant l’ensemble des données en format
         long (libellés, identifiants, millésime de la donnée et
         millésime de la géographie)
-  - 1 table géographique (format sf dataframe) :
+  - 1 table de données géographiques (format sf dataframe) :
       - **geo\_DEP\_SGF\_histo** : contours géographiques des
         départements (avec leur code et libellé) selon le millésime de
         la géographie (cf. "géographie ci-dessous)
@@ -48,8 +48,15 @@ Le package `sgf` peut être installé depuis
 [github](https://github.com/observatoire-territoires/sgf) via la
 commande suivante :
 
-``` r fold-show
+``` r
 remotes::install_github("observatoire-territoires/sgf")
+```
+
+Pour accéder à la documentation décrivant les tables de données, par
+exemple celle listant les indicateurs :
+
+``` r
+?sgf::indicateurs_SGF
 ```
 
 ## Géographie
@@ -72,7 +79,11 @@ La recherche des indicateurs se fait directement dans la table
 library(sgf)
 ```
 
-<table class="table table-striped table-hover table-condensed table-responsive" style="font-size: 9.5px; margin-left: auto; margin-right: auto;">
+``` r
+View(indicateurs_SGF)
+```
+
+<table class="table table-striped table-hover table-condensed table-responsive" style="font-size: 6.5px; margin-left: auto; margin-right: auto;">
 
 <thead>
 
@@ -244,100 +255,6 @@ arrondissement, 71 variables)
 <td style="text-align:left;">
 
 Veufs, sexe masculin, 1851
-
-</td>
-
-<td style="text-align:right;">
-
-1851
-
-</td>
-
-<td style="text-align:left;">
-
-DEP\_ARR
-
-</td>
-
-<td style="text-align:right;">
-
-1826
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-REC\_T01
-
-</td>
-
-<td style="text-align:left;">
-
-T01 – Recensements de 1851, 1856 et 1866 (par département et
-arrondissement, 71 variables)
-
-</td>
-
-<td style="text-align:right;">
-
-10
-
-</td>
-
-<td style="text-align:left;">
-
-Enfants et non mariés, sexe féminin, 1851
-
-</td>
-
-<td style="text-align:right;">
-
-1851
-
-</td>
-
-<td style="text-align:left;">
-
-DEP\_ARR
-
-</td>
-
-<td style="text-align:right;">
-
-1826
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-REC\_T01
-
-</td>
-
-<td style="text-align:left;">
-
-T01 – Recensements de 1851, 1856 et 1866 (par département et
-arrondissement, 71 variables)
-
-</td>
-
-<td style="text-align:right;">
-
-11
-
-</td>
-
-<td style="text-align:left;">
-
-Femmes mariées, sexe féminin, 1851
 
 </td>
 
