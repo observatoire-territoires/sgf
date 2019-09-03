@@ -1,6 +1,6 @@
 Package: sgf
 Title: sgf
-Version: 0.0.0.9000
+Version: 0.1.0
 Authors@R: person('Observatoire', 'des Territoires',email='observatoire@cget.gouv.fr', role=c('cre','aut'))
 Description: Old French statistics
 License: MIT + file LICENSE
