@@ -73,7 +73,7 @@ geo_DEP_SGF_histo <-
 
 # libellés départements
 
-ref_lib_dep_1 <- data_SGF %>% filter(NIVGEO %in% 'DEP') %>% filter(SRC_DATA %in% 'REC_T01') %>% filter(VAR_COD %in% 'V10') %>%
+ref_lib_dep_1 <- data_SGF %>% filter(NIVGEO %in% 'DEP') %>% filter(SRC_DATA %in% 'REC_T01') %>% filter(VAR_COD %in% 10) %>%
   select(CODGEO, LIBGEO) %>%
   mutate(LIBGEO = case_when(CODGEO %in% '04' ~ "BASSES-ALPES",
                             CODGEO %in% '05' ~ "HAUTES-ALPES",
@@ -96,8 +96,11 @@ geo_DEP_SGF_histo <-
   left_join(ref_lib_dep_1, by = "CODGEO") %>%
   mutate(LIBGEO = case_when(CODGEO %in% '54' ~ "MEURTHE-ET-MOSELLE",
                             CODGEO %in% '90' ~ "BELFORT",
-                            TRUE ~ as.character(LIBGEO)))
+                            TRUE ~ as.character(LIBGEO))) %>%
+  select(CODGEO, LIBGEO, ANNEE_GEOGRAPHIE, geometry)
 
+
+class(geo_DEP_SGF_histo) <- c("sf", "data.frame")
 
 # save carto deps
 saveRDS(geo_DEP_SGF_histo, file = "./geo/geo_DEP_SGF_histo.rds")

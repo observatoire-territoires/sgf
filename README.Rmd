@@ -1,5 +1,6 @@
 ---
 output: github_document
+always_allow_html: yes
 
 ---
 
@@ -36,7 +37,6 @@ Le package `sgf` regroupe, normalise et documente ces indicateurs disponibles da
   - __sgf_sfdf__ : après avoir identifié les indicateurs de son choix dans la table __indicateurs_SGF__, cette fonction permet de créer un sf dataframe avec les indicateurs en format large
 
 
-
 ## Installation
 
 Le package `sgf` peut être installé depuis [github](https://github.com/observatoire-territoires/sgf) via la commande suivante :
@@ -51,7 +51,7 @@ remotes::install_github("observatoire-territoires/sgf")
 Les contours des départements de France métropolitaine ont évolué sur la période que couvre les données de la SGF.
 Les 5 millésimes de cette géographie départementale sont disponibles dans la table `geo_DEP_SGF_histo` :
 
-```{r plot_geographie_departement , eval=T, echo=F, message=F, warning=F , dpi= 500}
+```{r plot_geographie_departement, eval=T, echo=F, message=F, warning=F , dpi= 500}
 
 library(tidyverse)
 library(sf)
@@ -105,25 +105,36 @@ ggplot(data = geo_DEP_SGF_histo_modifs ) +
 
 ## Exemple
 
-La recherche des indicateurs se fait directement dans la table __indicateurs_SGF__ : une fois la source et le numéro des variables sélectionnés, la fonction __sgf_sfdf__ permet de générer un sf dataframe des départements avec les indicateurs correspondants, au format large :
+La recherche des indicateurs se fait directement dans la table __indicateurs_SGF__ :
 
-
-```{r plot_exemple_data , eval=T , warning=F}
+```{r lib, eval=T , echo=T, message=F, warning=F}
 library(sgf)
+```
 
+```{r recherche_indics, eval=T , echo=F, message=F, warning=F}
+indicateurs_SGF %>% slice(1:5) %>%
+  kableExtra::kable() %>%
+  kableExtra::kable_styling(font_size = 9.5, bootstrap_options = c("striped", "hover", "condensed", "responsive"))
+```
+
+```{r recherche_indics_2, eval=F , echo=F, message=F, warning=F}
+DT::datatable(indicateurs_SGF %>% slice(1:2000))
+```
+
+Une fois la source (variable 'TABLEAU') et l'identifiant (variable 'VAR_COD') des indicateurs sélectionnés, la fonction __sgf_sfdf__ permet de générer un sf dataframe des départements avec les indicateurs correspondants, au format large :
+
+```{r plot_exemple_data , eval=T , warning=F, message=F}
 DEP_pop_1866 <-
   sgf_sfdf(TYPE_NIVGEO = "DEP",
            SRC ="REC_T25",
            LISTE_VAR_COD = c(215, 177, 183))
 
 glimpse(DEP_pop_1866)
-
-
 ```
 
 Puis on peut cartographier le tout avec `ggplot` par exemple :
 
-```{r plot_exemple_carto , eval=T, echo=T, message=F, warning=F , dpi= 500, fig.height=6}
+```{r plot_exemple_carto, eval=T, echo=T, message=F, warning=F , dpi= 500, fig.height=6}
 library(ggplot2)
 library(scales)
 library(hrbrthemes)
@@ -133,8 +144,8 @@ ggplot() +
             mutate(personnes_sachant_lire_et_ecrire_total_1866_pct = 
                      personnes_sachant_lire_et_ecrire_total_1866 / total_general_de_la_population_total_1866),
           aes(fill= personnes_sachant_lire_et_ecrire_total_1866_pct),
-          color = "white",
-          lwd = 0.1) +
+          color = "grey20",
+          lwd = 0.15) +
   scale_fill_distiller(name = "", palette = "RdBu",
                        labels = percent_format(accuracy =1),
                        direction = 1) +
@@ -142,7 +153,7 @@ ggplot() +
   theme(axis.text = element_blank(), axis.title  = element_blank(), axis.ticks  = element_blank()) +
   labs(
     title = "Part de la population sachant lire et écrire",
-    subtitle = "En 1881, par département",
+    subtitle = "En 1866, par département",
     caption = "Source : Insee - SGF - ICPSR"
   )
 

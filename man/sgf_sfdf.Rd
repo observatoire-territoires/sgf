@@ -24,7 +24,8 @@ Pour l'instant seul le niveau géographie du département (TYPE_NIVGEO = 'DEP') 
 }
 \examples{
 \dontrun{
-# Creation du sf dataframe contenant les indicateurs de cheptels (bovins, ovins, etc...) issus du recensement de 1872
+# Creation du sf dataframe contenant les indicateurs de cheptels (bovins, ovins, etc...) 
+issus du recensement de 1872
 DEP_cheptels_1872 <-
 sgf_sfdf(TYPE_NIVGEO = "DEP",
          SRC ="REC_T17",

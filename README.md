@@ -60,19 +60,317 @@ géographie départementale sont disponibles dans la table
 `geo_DEP_SGF_histo`
 :
 
-<img src="man/figures/README-plot_geographie_departement -1.png" width="100%" />
+<img src="man/figures/README-plot_geographie_departement-1.png" width="100%" />
 
 ## Exemple
 
 La recherche des indicateurs se fait directement dans la table
-**indicateurs\_SGF** : une fois la source et le numéro des variables
-sélectionnés, la fonction **sgf\_sfdf** permet de générer un sf
-dataframe des départements avec les indicateurs correspondants, au
-format large :
+**indicateurs\_SGF**
+:
 
 ``` r
 library(sgf)
+```
 
+<table class="table table-striped table-hover table-condensed table-responsive" style="font-size: 9.5px; margin-left: auto; margin-right: auto;">
+
+<thead>
+
+<tr>
+
+<th style="text-align:left;">
+
+TABLEAU
+
+</th>
+
+<th style="text-align:left;">
+
+NOM\_TABLEAU
+
+</th>
+
+<th style="text-align:right;">
+
+VAR\_COD
+
+</th>
+
+<th style="text-align:left;">
+
+VAR\_LIB
+
+</th>
+
+<th style="text-align:right;">
+
+ANNEE\_DONNEE
+
+</th>
+
+<th style="text-align:left;">
+
+ECHELLES\_GEO
+
+</th>
+
+<th style="text-align:right;">
+
+ANNEE\_GEOGRAPHIE
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td style="text-align:left;">
+
+REC\_T01
+
+</td>
+
+<td style="text-align:left;">
+
+T01 – Recensements de 1851, 1856 et 1866 (par département et
+arrondissement, 71 variables)
+
+</td>
+
+<td style="text-align:right;">
+
+7
+
+</td>
+
+<td style="text-align:left;">
+
+Enfants et non mariés, sexe masculin, 1851
+
+</td>
+
+<td style="text-align:right;">
+
+1851
+
+</td>
+
+<td style="text-align:left;">
+
+DEP\_ARR
+
+</td>
+
+<td style="text-align:right;">
+
+1826
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+REC\_T01
+
+</td>
+
+<td style="text-align:left;">
+
+T01 – Recensements de 1851, 1856 et 1866 (par département et
+arrondissement, 71 variables)
+
+</td>
+
+<td style="text-align:right;">
+
+8
+
+</td>
+
+<td style="text-align:left;">
+
+Hommes mariés, sexe masculin, 1851
+
+</td>
+
+<td style="text-align:right;">
+
+1851
+
+</td>
+
+<td style="text-align:left;">
+
+DEP\_ARR
+
+</td>
+
+<td style="text-align:right;">
+
+1826
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+REC\_T01
+
+</td>
+
+<td style="text-align:left;">
+
+T01 – Recensements de 1851, 1856 et 1866 (par département et
+arrondissement, 71 variables)
+
+</td>
+
+<td style="text-align:right;">
+
+9
+
+</td>
+
+<td style="text-align:left;">
+
+Veufs, sexe masculin, 1851
+
+</td>
+
+<td style="text-align:right;">
+
+1851
+
+</td>
+
+<td style="text-align:left;">
+
+DEP\_ARR
+
+</td>
+
+<td style="text-align:right;">
+
+1826
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+REC\_T01
+
+</td>
+
+<td style="text-align:left;">
+
+T01 – Recensements de 1851, 1856 et 1866 (par département et
+arrondissement, 71 variables)
+
+</td>
+
+<td style="text-align:right;">
+
+10
+
+</td>
+
+<td style="text-align:left;">
+
+Enfants et non mariés, sexe féminin, 1851
+
+</td>
+
+<td style="text-align:right;">
+
+1851
+
+</td>
+
+<td style="text-align:left;">
+
+DEP\_ARR
+
+</td>
+
+<td style="text-align:right;">
+
+1826
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+REC\_T01
+
+</td>
+
+<td style="text-align:left;">
+
+T01 – Recensements de 1851, 1856 et 1866 (par département et
+arrondissement, 71 variables)
+
+</td>
+
+<td style="text-align:right;">
+
+11
+
+</td>
+
+<td style="text-align:left;">
+
+Femmes mariées, sexe féminin, 1851
+
+</td>
+
+<td style="text-align:right;">
+
+1851
+
+</td>
+
+<td style="text-align:left;">
+
+DEP\_ARR
+
+</td>
+
+<td style="text-align:right;">
+
+1826
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+Une fois la source (variable ‘TABLEAU’) et l’identifiant (variable
+‘VAR\_COD’) des indicateurs sélectionnés, la fonction **sgf\_sfdf**
+permet de générer un sf dataframe des départements avec les indicateurs
+correspondants, au format large :
+
+``` r
 DEP_pop_1866 <-
   sgf_sfdf(TYPE_NIVGEO = "DEP",
            SRC ="REC_T25",
@@ -80,10 +378,11 @@ DEP_pop_1866 <-
 
 glimpse(DEP_pop_1866)
 #> Observations: 89
-#> Variables: 6
+#> Variables: 7
 #> $ CODGEO                                      <chr> "01", "02", "03", ...
-#> $ geometry                                    <GEOMETRY [m]> POLYGON (...
+#> $ LIBGEO                                      <chr> "AIN", "AISNE", "A...
 #> $ ANNEE_GEOGRAPHIE                            <dbl> 1866, 1866, 1866, ...
+#> $ geometry                                    <GEOMETRY [m]> POLYGON (...
 #> $ aveugles_total_1866                         <dbl> 318, 659, 219, 168...
 #> $ personnes_sachant_lire_et_ecrire_total_1866 <dbl> 178797, 324069, 10...
 #> $ total_general_de_la_population_total_1866   <dbl> 365895, 561620, 37...
@@ -101,8 +400,8 @@ ggplot() +
             mutate(personnes_sachant_lire_et_ecrire_total_1866_pct = 
                      personnes_sachant_lire_et_ecrire_total_1866 / total_general_de_la_population_total_1866),
           aes(fill= personnes_sachant_lire_et_ecrire_total_1866_pct),
-          color = "white",
-          lwd = 0.1) +
+          color = "grey20",
+          lwd = 0.15) +
   scale_fill_distiller(name = "", palette = "RdBu",
                        labels = percent_format(accuracy =1),
                        direction = 1) +
@@ -110,9 +409,9 @@ ggplot() +
   theme(axis.text = element_blank(), axis.title  = element_blank(), axis.ticks  = element_blank()) +
   labs(
     title = "Part de la population sachant lire et écrire",
-    subtitle = "En 1881, par département",
+    subtitle = "En 1866, par département",
     caption = "Source : Insee - SGF - ICPSR"
   )
 ```
 
-<img src="man/figures/README-plot_exemple_carto -1.png" width="100%" />
+<img src="man/figures/README-plot_exemple_carto-1.png" width="100%" />

@@ -41,12 +41,15 @@ devtools::use_data_raw()
 # sauvegarde des dataframes dans dossier data
 usethis::use_data(geo_DEP_SGF_histo, indicateurs_SGF, data_SGF, overwrite = T)
 usethis::use_data( data_SGF, overwrite = T)
-
+usethis::use_data( geo_DEP_SGF_histo, overwrite = T)
 
 use_news_md()
 
 # fonction
 use_r("sgf_sfdf")
+
+# documentation des datasets
+use_r("data")
 
 # dependances
 use_package("dplyr") 
