@@ -120,7 +120,7 @@ library(sgf)
 View(indicateurs_SGF)
 ```
 
-```{r recherche_indics, eval=T , echo=F, message=F, warning=F}
+```{r recherche_indics, eval=F , echo=F, message=F, warning=F}
 indicateurs_SGF %>% slice(1:3) %>%
   kableExtra::kable() %>%
   kableExtra::kable_styling(font_size = 6.5, bootstrap_options = c("striped", "hover", "condensed", "responsive"))
