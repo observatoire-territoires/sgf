@@ -138,11 +138,16 @@ indicateurs_SGF_NEW <-
 
 
 # modifs année géographie
+<<<<<<< HEAD
 data_SGF <- data_SGF %>%
+=======
+data_SGF_NEW <- data_SGF %>%
+>>>>>>> 5429021d5d3642e4cad82330e64d494a98b3660e
   mutate(NIVGEO = case_when(SRC_DATA %in% 'MVTPOP_T91' ~ "ARR", TRUE ~ as.character(NIVGEO))) %>%
   mutate(ANNEE_GEOGRAPHIE = case_when(SRC_DATA %in% 'MVTPOP_T91' ~ 1826, TRUE ~ ANNEE_GEOGRAPHIE))
 
 # corrections arrondissements PARIS
+<<<<<<< HEAD
 data_SGF_NEW <- data_SGF %>%
   ungroup() %>%
   mutate(CODGEO_NEW = case_when(substr(CODGEO,1,3) %in% c('754','755','756') ~ "7501", TRUE ~ as.character(CODGEO))) %>%
@@ -151,13 +156,25 @@ data_SGF_NEW <- data_SGF %>%
             VAL = sum(VAL, na.rm = T)) %>%
   select("NIVGEO", CODGEO = "CODGEO_NEW" , "LIBGEO" , "SRC_DATA" ,"VAR_COD" , "VAR_LIB" , "ANNEE_DONNEE" ,    "ANNEE_GEOGRAPHIE", "VAL") %>%
   mutate(LIBGEO = case_when(LIBGEO %in% 'LOUVRE' ~ "PARIS", TRUE ~ as.character(LIBGEO)))
+=======
+data_SGF_NEW <- data_SGF_NEW %>%
+  ungroup() %>%
+  mutate(CODGEO_NEW = case_when(substr(CODGEO,1,3) %in% c('754','755','756') ~ "7501", TRUE ~ as.character(CODGEO))) %>%
+  group_by(NIVGEO, CODGEO_NEW , LIBGEO ,SRC_DATA ,VAR_COD , VAR_LIB , ANNEE_DONNEE , ANNEE_GEOGRAPHIE) %>%
+  summarise(VAL = sum(VAL, na.rm = T)) %>%
+  select("NIVGEO", CODGEO = "CODGEO_NEW" , "LIBGEO" , "SRC_DATA" ,"VAR_COD" , "VAR_LIB" , "ANNEE_DONNEE" ,    "ANNEE_GEOGRAPHIE", "VAL")
+>>>>>>> 5429021d5d3642e4cad82330e64d494a98b3660e
 
 
 # fonction sgf_sfdf
 
 sgf_sfdf_2 <- function(TYPE_NIVGEO, SRC, LISTE_VAR_COD) {
   
+<<<<<<< HEAD
   df_data <- data_SGF_NEW %>%
+=======
+  df_data <- data_SGF %>%
+>>>>>>> 5429021d5d3642e4cad82330e64d494a98b3660e
     filter(NIVGEO %in% TYPE_NIVGEO) %>%
     filter(SRC_DATA %in% SRC & VAR_COD %in% LISTE_VAR_COD) %>%
     select(CODGEO,ANNEE_GEOGRAPHIE,VAR_LIB, VAL) %>%
@@ -169,17 +186,29 @@ sgf_sfdf_2 <- function(TYPE_NIVGEO, SRC, LISTE_VAR_COD) {
   annee_geo <- df_data %>% distinct(annee_geographie) %>% as.vector() %>% pull()
   
   if(TYPE_NIVGEO == "DEP") {
+<<<<<<< HEAD
     data <- geo_DEP_SGF_histo %>%
       filter(ANNEE_GEOGRAPHIE %in% annee_geo) %>%
       left_join(df_data %>% select(-annee_geographie),
                 by = c("CODGEO" = "codgeo")) %>%
       ungroup()
+=======
+  data <- geo_DEP_SGF_histo %>%
+    filter(ANNEE_GEOGRAPHIE %in% annee_geo) %>%
+    left_join(df_data %>% select(-annee_geographie, -nivgeo, -libgeo, -src_data, -var_cod, -annee_donnee, -annee_geographie),
+              by = c("CODGEO" = "codgeo")) %>%
+    ungroup()
+>>>>>>> 5429021d5d3642e4cad82330e64d494a98b3660e
   }
   
   else {
     data <- geo_ARR_SGF_histo %>%
       filter(ANNEE_GEOGRAPHIE %in% annee_geo) %>%
+<<<<<<< HEAD
       left_join(df_data %>% select(-annee_geographie),
+=======
+      left_join(df_data %>% select(-annee_geographie, -nivgeo, -libgeo, -src_data, -var_cod, -annee_donnee, -annee_geographie),
+>>>>>>> 5429021d5d3642e4cad82330e64d494a98b3660e
                 by = c("CODGEO" = "codgeo")) %>%
       ungroup()
   }
