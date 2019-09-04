@@ -44,14 +44,12 @@ usethis::use_data( data_SGF, overwrite = T)
 usethis::use_data( geo_DEP_SGF_histo, overwrite = T)
 
 # rectifs des tables
-indicateurs_SGF <- indicateurs_SGF_NEW
-data_SGF <- data_SGF_NEW
+
 usethis::use_data( indicateurs_SGF, data_SGF, overwrite = T)
-<<<<<<< HEAD
+
 usethis::use_data( data_SGF, overwrite = T)
-=======
+
 usethis::use_data( geo_ARR_SGF_histo, overwrite = T)
->>>>>>> 5429021d5d3642e4cad82330e64d494a98b3660e
 
 
 use_news_md()
