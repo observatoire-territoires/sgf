@@ -103,4 +103,42 @@ geo_DEP_SGF_histo <-
 class(geo_DEP_SGF_histo) <- c("sf", "data.frame")
 
 # save carto deps
-saveRDS(geo_DEP_SGF_histo, file = "./geo/geo_DEP_SGF_histo.rds")
+#saveRDS(geo_DEP_SGF_histo, file = "./geo/geo_DEP_SGF_histo.rds")
+
+
+##############################
+#### fonds ARRONDISSEMENTS
+#############################
+
+
+geo_ARR_SGF_histo <-
+  geo_ARR_1801 %>% mutate(ANNEE_GEOGRAPHIE = 1801) %>%
+  rbind.data.frame(geo_ARR_1826 %>% mutate(ANNEE_GEOGRAPHIE = 1826)) %>%
+  rbind.data.frame(geo_ARR_1876 %>% mutate(ANNEE_GEOGRAPHIE = 1876)) 
+
+# libellés départements
+
+ref_lib_arr_1 <- data_SGF %>% 
+  filter(NIVGEO %in% 'ARR') %>%
+  # filter(SRC_DATA %in% 'REC_T01') %>%
+  # filter(VAR_COD %in% 10) %>%
+  distinct(CODGEO, LIBGEO) %>%
+  filter(!LIBGEO %in% c('VILLEFR-DE-ROUERG','TARASCON',"PONT L'EVEQUE", "CHATILLON-SUR-SEI",
+                        "NOGENT LE ROTROU","VILLEFRANC DE LAU","ISSODUN","SAVENAY","VILLENEUV-SUR-LOT",
+                        "SCHELESTADT","GUEBWILLER","VILLE-FR-SUR-SAON", "VILLEFR-SUR-SAONE",
+                        "SAINT-JEAN-DE-MAU","ST-JEAN-DE-MAUR","SAINT-JULLIEN","NEUFCHATEL-EN-BRA",
+                        "LAROCHE-SUR-YON","LES SABLES-D'OLONNE","MOULINS-SUR-ALLIE") ) %>%
+  mutate(LIBGEO = case_when(CODGEO %in% '6802' ~ 'BELFORT', TRUE ~ as.character(LIBGEO))) %>%
+  filter(!substr(CODGEO,1,3) %in% c('754','755','756')) %>%
+  distinct(CODGEO, LIBGEO)
+
+
+
+
+geo_ARR_SGF_histo <- 
+  geo_ARR_SGF_histo %>%
+  left_join(ref_lib_arr_1, by = "CODGEO") %>%
+  select(CODGEO, LIBGEO, ANNEE_GEOGRAPHIE, geometry)
+
+
+class(geo_ARR_SGF_histo) <- c("sf", "data.frame")

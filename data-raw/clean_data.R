@@ -121,3 +121,73 @@ data_SGF <- pmap_dfr(argList,
 # saveRDS(data_SGF, file = "./data/data_SGF.rds")
 # # Restore the object
 # data_SGF <- readRDS(file = "./data/data_SGF.rds")
+
+
+
+
+
+################################
+#### modifs pour intégration data arrondissements
+################################
+
+# modifs année géographie
+indicateurs_SGF_NEW <- 
+  indicateurs_SGF %>%
+  mutate(ANNEE_GEOGRAPHIE = case_when(TABLEAU %in% 'MVTPOP_T91' ~ 1826, TRUE ~ ANNEE_GEOGRAPHIE))
+
+
+
+# modifs année géographie
+data_SGF_NEW <- data_SGF %>%
+  mutate(NIVGEO = case_when(SRC_DATA %in% 'MVTPOP_T91' ~ "ARR", TRUE ~ as.character(NIVGEO))) %>%
+  mutate(ANNEE_GEOGRAPHIE = case_when(SRC_DATA %in% 'MVTPOP_T91' ~ 1826, TRUE ~ ANNEE_GEOGRAPHIE))
+
+# corrections arrondissements PARIS
+data_SGF_NEW <- data_SGF_NEW %>%
+  ungroup() %>%
+  mutate(CODGEO_NEW = case_when(substr(CODGEO,1,3) %in% c('754','755','756') ~ "7501", TRUE ~ as.character(CODGEO))) %>%
+  group_by(NIVGEO, CODGEO_NEW , LIBGEO ,SRC_DATA ,VAR_COD , VAR_LIB , ANNEE_DONNEE , ANNEE_GEOGRAPHIE) %>%
+  summarise(VAL = sum(VAL, na.rm = T)) %>%
+  select("NIVGEO", CODGEO = "CODGEO_NEW" , "LIBGEO" , "SRC_DATA" ,"VAR_COD" , "VAR_LIB" , "ANNEE_DONNEE" ,    "ANNEE_GEOGRAPHIE", "VAL")
+
+
+# fonction sgf_sfdf
+
+sgf_sfdf_2 <- function(TYPE_NIVGEO, SRC, LISTE_VAR_COD) {
+  
+  df_data <- data_SGF %>%
+    filter(NIVGEO %in% TYPE_NIVGEO) %>%
+    filter(SRC_DATA %in% SRC & VAR_COD %in% LISTE_VAR_COD) %>%
+    select(CODGEO,ANNEE_GEOGRAPHIE,VAR_LIB, VAL) %>%
+    spread(VAR_LIB, VAL) %>%
+    clean_names() %>%
+    ungroup()
+  
+  
+  annee_geo <- df_data %>% distinct(annee_geographie) %>% as.vector() %>% pull()
+  
+  if(TYPE_NIVGEO == "DEP") {
+  data <- geo_DEP_SGF_histo %>%
+    filter(ANNEE_GEOGRAPHIE %in% annee_geo) %>%
+    left_join(df_data %>% select(-annee_geographie, -nivgeo, -libgeo, -src_data, -var_cod, -annee_donnee, -annee_geographie),
+              by = c("CODGEO" = "codgeo")) %>%
+    ungroup()
+  }
+  
+  else {
+    data <- geo_ARR_SGF_histo %>%
+      filter(ANNEE_GEOGRAPHIE %in% annee_geo) %>%
+      left_join(df_data %>% select(-annee_geographie, -nivgeo, -libgeo, -src_data, -var_cod, -annee_donnee, -annee_geographie),
+                by = c("CODGEO" = "codgeo")) %>%
+      ungroup()
+  }
+  
+}
+
+
+ARR_cheptels_1872 <-
+  sgf_sfdf_2(TYPE_NIVGEO = "ARR",
+           SRC ="REC_T24",
+           LISTE_VAR_COD = c(18))
+
+

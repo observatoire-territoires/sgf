@@ -39,15 +39,27 @@ sgf_sfdf <- function(TYPE_NIVGEO, SRC, LISTE_VAR_COD) {
     filter(SRC_DATA %in% SRC & VAR_COD %in% LISTE_VAR_COD) %>%
     select(CODGEO,ANNEE_GEOGRAPHIE,VAR_LIB, VAL) %>%
     spread(VAR_LIB, VAL) %>%
-    clean_names()
+    clean_names() %>%
+    ungroup()
   
   
   annee_geo <- df_data %>% distinct(annee_geographie) %>% as.vector() %>% pull()
   
-  data <- geo_DEP_SGF_histo %>%
-    filter(ANNEE_GEOGRAPHIE %in% annee_geo) %>%
-    left_join(df_data %>% select(-annee_geographie),
-              by = c("CODGEO" = "codgeo")) 
+  if(TYPE_NIVGEO == "DEP") {
+    data <- geo_DEP_SGF_histo %>%
+      filter(ANNEE_GEOGRAPHIE %in% annee_geo) %>%
+      left_join(df_data %>% select(-annee_geographie, -nivgeo, -libgeo, -src_data, -var_cod, -annee_donnee, -annee_geographie),
+                by = c("CODGEO" = "codgeo")) %>%
+      ungroup()
+  }
+  
+  else {
+    data <- geo_ARR_SGF_histo %>%
+      filter(ANNEE_GEOGRAPHIE %in% annee_geo) %>%
+      left_join(df_data %>% select(-annee_geographie, -nivgeo, -libgeo, -src_data, -var_cod, -annee_donnee, -annee_geographie),
+                by = c("CODGEO" = "codgeo")) %>%
+      ungroup()
+  }
   
 }
 
