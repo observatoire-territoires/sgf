@@ -48,11 +48,8 @@ sgf_sfdf <- function(TYPE_NIVGEO, SRC, LISTE_VAR_COD) {
   if(TYPE_NIVGEO == "DEP") {
     data <- geo_DEP_SGF_histo %>%
       filter(ANNEE_GEOGRAPHIE %in% annee_geo) %>%
-<<<<<<< HEAD
       left_join(df_data %>% select(-annee_geographie),
-=======
-      left_join(df_data %>% select(-annee_geographie, -nivgeo, -libgeo, -src_data, -var_cod, -annee_donnee, -annee_geographie),
->>>>>>> 5429021d5d3642e4cad82330e64d494a98b3660e
+      #left_join(df_data %>% select(-annee_geographie, -nivgeo, -libgeo, -src_data, -var_cod, -annee_donnee, -annee_geographie),
                 by = c("CODGEO" = "codgeo")) %>%
       ungroup()
   }
@@ -60,11 +57,8 @@ sgf_sfdf <- function(TYPE_NIVGEO, SRC, LISTE_VAR_COD) {
   else {
     data <- geo_ARR_SGF_histo %>%
       filter(ANNEE_GEOGRAPHIE %in% annee_geo) %>%
-<<<<<<< HEAD
       left_join(df_data %>% select(-annee_geographie),
-=======
-      left_join(df_data %>% select(-annee_geographie, -nivgeo, -libgeo, -src_data, -var_cod, -annee_donnee, -annee_geographie),
->>>>>>> 5429021d5d3642e4cad82330e64d494a98b3660e
+      #left_join(df_data %>% select(-annee_geographie, -nivgeo, -libgeo, -src_data, -var_cod, -annee_donnee, -annee_geographie),
                 by = c("CODGEO" = "codgeo")) %>%
       ungroup()
   }
