@@ -4,7 +4,7 @@
 \name{geo_ARR_SGF_histo}
 \alias{geo_ARR_SGF_histo}
 \title{Géographies des arrondissements}
-\format{Table géographique (format sf data.frame) de 1127 lignes et 3 variables.
+\format{Table géographique (format sf data.frame) de 1084 lignes et 3 variables.
 \describe{
   \item{CODGEO}{Identifiant du territoire}
   \item{LIBGEO}{Nom du territoire}

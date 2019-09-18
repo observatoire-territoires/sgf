@@ -116,6 +116,12 @@ geo_ARR_SGF_histo <-
   rbind.data.frame(geo_ARR_1826 %>% mutate(ANNEE_GEOGRAPHIE = 1826)) %>%
   rbind.data.frame(geo_ARR_1876 %>% mutate(ANNEE_GEOGRAPHIE = 1876)) 
 
+
+# correction des arrondissements avec iles
+
+geo_ARR_SGF_histo <- geo_ARR_SGF_histo %>% group_by(CODGEO, LIBGEO, ANNEE_GEOGRAPHIE) %>% summarise()
+
+
 # libellés départements
 
 ref_lib_arr_1 <- data_SGF %>% 

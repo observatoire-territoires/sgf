@@ -166,7 +166,7 @@ ggplot() +
   geom_sf(data = ARR_pop_sexe_1851, fill="grey80", color = "grey90" , lwd = 0.35) +
   geom_sf(data = geo_DEP_SGF_histo %>% filter(ANNEE_GEOGRAPHIE == 1826), 
           fill=NA, color = "grey95", lwd = 0.75 ) +
-  geom_sf(data = ARR_pop_sexe_1851 %>% st_centroid(),
+  geom_sf(data = ARR_pop_sexe_1851 %>% st_centroid(of_largest_polygon=T),
           aes(fill= ratio_femmes_hommes_1851,
               size = total_du_sexe_masculin_1851 + total_du_sexe_feminin_1851 ),
           color = "grey40", shape = 21) +
