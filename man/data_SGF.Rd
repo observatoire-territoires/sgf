@@ -4,7 +4,7 @@
 \name{data_SGF}
 \alias{data_SGF}
 \title{Table des données de la SGF}
-\format{Table (format data.frame) de 4 639 686 lignes et 9 variables.
+\format{Table (format data.frame) de 4 627 598 lignes et 9 variables.
 \describe{
   \item{NIVGEO}{Nom de l'échelle géographique (FR pour France entière, DEP pour Département, 
   ARR pour Arrondissement, CHL pour Chef-lieu d'arrondissement, VIL pour Ville)}

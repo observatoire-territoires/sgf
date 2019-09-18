@@ -7,20 +7,20 @@
 sgf_sfdf(TYPE_NIVGEO, SRC, LISTE_VAR_COD)
 }
 \arguments{
-\item{TYPE_NIVGEO}{Nom court du niveau géographique (pour l'instant, seul 'DEP' pour département est disponible).}
+\item{TYPE_NIVGEO}{Nom court du niveau géographique ('DEP' pour département, "ARR" pour arrondissement).}
 
 \item{SRC}{Nom du tableau de données dans lequel se trouvent les indicateurs à récupérer (cf. champ 'TABLEAU' dans la table 'indicateurs_SGF').}
 
 \item{LISTE_VAR_COD}{Liste des codes des variables à récupérer (cf. champ 'VAR_COD' dans la table 'indicateurs_SGF').}
 }
 \value{
-Renvoie sf dataframe contenant code et nom du territoire ainsi que les indicateurs sélectionnés.
+Renvoie un sf dataframe contenant code et nom du territoire ainsi que les indicateurs sélectionnés.
 }
 \description{
 Générer un sf dataframe contenant les indicateurs de la SGF préalablement sélectionnés.
 }
 \details{
-Pour l'instant seul le niveau géographie du département (TYPE_NIVGEO = 'DEP') est disponible. \cr
+Deux niveaux géographiques sont disponibles : département (TYPE_NIVGEO = 'DEP') et arrondissement ("ARR"). \cr
 }
 \examples{
 \dontrun{

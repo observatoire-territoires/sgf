@@ -156,3 +156,13 @@ data_SGF_NEW <- data_SGF_NEW %>%
 data_SGF <- data_SGF_NEW
 data_SGF <- data_SGF %>% ungroup() %>% as.data.frame()
 
+
+## rectifs manuelles indicateurs_SGF
+# suppr data/indicateurs_sgf.rda
+indicateurs_SGF <- indicateurs_SGF %>%
+  mutate(ECHELLES_GEO = case_when(TABLEAU %in% "MVTPOP_T76" ~ "CHL_VILLE",
+                                  TRUE ~ as.character(ECHELLES_GEO)))
+usethis::use_data( indicateurs_SGF, overwrite = T)
+
+
+date_SGF <- data_SGF

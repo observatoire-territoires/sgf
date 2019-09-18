@@ -4,11 +4,11 @@
 #'
 #' @description Générer un sf dataframe contenant les indicateurs de la SGF préalablement sélectionnés.
 #'
-#' @param TYPE_NIVGEO Nom court du niveau géographique (pour l'instant, seul 'DEP' pour département est disponible).
+#' @param TYPE_NIVGEO Nom court du niveau géographique ('DEP' pour département, "ARR" pour arrondissement).
 #' @param SRC Nom du tableau de données dans lequel se trouvent les indicateurs à récupérer (cf. champ 'TABLEAU' dans la table 'indicateurs_SGF').
 #' @param LISTE_VAR_COD Liste des codes des variables à récupérer (cf. champ 'VAR_COD' dans la table 'indicateurs_SGF').
 #'
-#' @return Renvoie sf dataframe contenant code et nom du territoire ainsi que les indicateurs sélectionnés.
+#' @return Renvoie un sf dataframe contenant code et nom du territoire ainsi que les indicateurs sélectionnés.
 #'
 #' @importFrom dplyr tribble filter distinct pull mutate select left_join case_when group_by summarise ungroup rename mutate_if bind_rows
 #' @importFrom janitor clean_names
@@ -27,7 +27,7 @@
 #'}
 #'
 #' @details
-#' Pour l'instant seul le niveau géographie du département (TYPE_NIVGEO = 'DEP') est disponible. \cr
+#' Deux niveaux géographiques sont disponibles : département (TYPE_NIVGEO = 'DEP') et arrondissement ("ARR"). \cr
 #'
 #'
 #' @export
@@ -49,7 +49,6 @@ sgf_sfdf <- function(TYPE_NIVGEO, SRC, LISTE_VAR_COD) {
     data <- geo_DEP_SGF_histo %>%
       filter(ANNEE_GEOGRAPHIE %in% annee_geo) %>%
       left_join(df_data %>% select(-annee_geographie),
-      #left_join(df_data %>% select(-annee_geographie, -nivgeo, -libgeo, -src_data, -var_cod, -annee_donnee, -annee_geographie),
                 by = c("CODGEO" = "codgeo")) %>%
       ungroup()
   }
@@ -58,7 +57,6 @@ sgf_sfdf <- function(TYPE_NIVGEO, SRC, LISTE_VAR_COD) {
     data <- geo_ARR_SGF_histo %>%
       filter(ANNEE_GEOGRAPHIE %in% annee_geo) %>%
       left_join(df_data %>% select(-annee_geographie),
-      #left_join(df_data %>% select(-annee_geographie, -nivgeo, -libgeo, -src_data, -var_cod, -annee_donnee, -annee_geographie),
                 by = c("CODGEO" = "codgeo")) %>%
       ungroup()
   }

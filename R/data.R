@@ -20,7 +20,7 @@
 #'
 #' Données de la SGF (au format long) publiées par l'Insee.
 #'
-#' @format Table (format data.frame) de 4 639 686 lignes et 9 variables.
+#' @format Table (format data.frame) de 4 627 598 lignes et 9 variables.
 #' \describe{
 #'   \item{NIVGEO}{Nom de l'échelle géographique (FR pour France entière, DEP pour Département, 
 #'   ARR pour Arrondissement, CHL pour Chef-lieu d'arrondissement, VIL pour Ville)}
@@ -48,3 +48,16 @@
 #'   \item{geometry}{Description des contours géographiques}
 #' }
 "geo_DEP_SGF_histo"
+
+#' Géographies des arrondissements  
+#'
+#' Contours et libellés des arrondissements de France métropolitaine à plusieurs millésimes.
+#'
+#' @format Table géographique (format sf data.frame) de 1127 lignes et 3 variables.
+#' \describe{
+#'   \item{CODGEO}{Identifiant du territoire}
+#'   \item{LIBGEO}{Nom du territoire}
+#'   \item{ANNEE_GEOGRAPHIE}{Millésime du contour géographique (1801, 1826 ou 1876)}
+#'   \item{geometry}{Description des contours géographiques}
+#' }
+"geo_ARR_SGF_histo"

@@ -2,7 +2,7 @@ Package: sgf
 Title: sgf
 Version: 0.1.0
 Authors@R: person('Observatoire', 'des Territoires',email='observatoire@cget.gouv.fr', role=c('cre','aut'))
-Description: Old French statistics
+Description: Statistiques sur la France du XIXème siécle
 License: MIT + file LICENSE
 LazyData: true
 URL: https://github.com/observatoire-territoires/sgf
