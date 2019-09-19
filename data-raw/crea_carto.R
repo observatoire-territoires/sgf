@@ -122,6 +122,22 @@ geo_ARR_SGF_histo <-
 geo_ARR_SGF_histo <- geo_ARR_SGF_histo %>% group_by(CODGEO, LIBGEO, ANNEE_GEOGRAPHIE) %>% summarise()
 
 
+# rectification du code et de l'arrondissement de Toul en 1876
+
+geo_ARR_SGF_histo_2 <- geo_ARR_SGF_histo
+class(geo_ARR_SGF_histo_2) <- c('sf','data.frame')
+
+geo_ARR_SGF_histo_2 <-geo_ARR_SGF_histo_2  %>%
+  ungroup() %>%
+  mutate(CODGEO = case_when(CODGEO %in% '5404' & ANNEE_GEOGRAPHIE %in% 1876 ~ "5405",
+         TRUE ~ as.character(CODGEO))) %>%
+  mutate(LIBGEO = case_when(CODGEO %in% '5405' & ANNEE_GEOGRAPHIE == 1876 ~ "TOUL",
+         TRUE ~ as.character(LIBGEO)))
+
+# changement de format DEP sf
+geo_DEP_SGF_histo_2 <- geo_DEP_SGF_histo
+class(geo_DEP_SGF_histo_2) <- c('sf','data.frame')
+
 # libellés départements
 
 ref_lib_arr_1 <- data_SGF %>% 

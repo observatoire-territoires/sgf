@@ -41,7 +41,7 @@ devtools::use_data_raw()
 # sauvegarde des dataframes dans dossier data
 usethis::use_data(geo_DEP_SGF_histo, indicateurs_SGF, data_SGF, overwrite = T)
 usethis::use_data( indicateurs_SGF, overwrite = T)
-usethis::use_data( geo_ARR_SGF_histo, overwrite = T)
+usethis::use_data( geo_DEP_SGF_histo, overwrite = T)
 
 # rectifs des tables
 
