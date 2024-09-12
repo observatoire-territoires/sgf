@@ -43,7 +43,7 @@ sgf_sfdf <- function(TYPE_NIVGEO, SRC, LISTE_VAR_COD) {
     ungroup()
   
   
-  annee_geo <- df_data %>% distinct(annee_geographie) %>% as.vector() %>% pull()
+  annee_geo <- df_data %>% distinct(annee_geographie) %>% pull()
   
   if(TYPE_NIVGEO == "DEP") {
     data <- geo_DEP_SGF_histo %>%
